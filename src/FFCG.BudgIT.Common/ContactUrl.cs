@@ -3,7 +3,7 @@ using System.Web;
 
 namespace FFCG.BudgIT.Common
 {
-    public static class ContactUrl
+    public static class BudgItUrl
     {
         public static string BuildWebUrl()
         {
@@ -13,16 +13,6 @@ namespace FFCG.BudgIT.Common
         {
             var index = url.LastIndexOf(@"/", StringComparison.Ordinal) + 1;
             return url.Substring(index);
-        }
-
-        public static string GetPictureUrl(string picture)
-        {
-            if (string.IsNullOrEmpty(picture))
-            {
-                return null;
-            }
-
-            return BuildWebUrl() + ConfigurationProvider.UploadFileFolder + picture;
         }
     }
 }
