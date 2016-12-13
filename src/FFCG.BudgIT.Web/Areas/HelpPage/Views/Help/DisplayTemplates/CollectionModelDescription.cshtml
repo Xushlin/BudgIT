@@ -1,0 +1,6 @@
+@using FFCG.BudgIT.Web.Areas.HelpPage.ModelDescriptions
+@model FFCG.BudgIT.Web.Areas.HelpPage.ModelDescriptions.CollectionModelDescription
+@if (Model.ElementDescription is ComplexTypeModelDescription)
+{
+    @Html.DisplayFor(m => m.ElementDescription)
+}

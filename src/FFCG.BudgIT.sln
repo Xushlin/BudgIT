@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFCG.BudgIT.WebAPI", "FFCG.BudgIT.WebAPI\FFCG.BudgIT.WebAPI.csproj", "{DBDB153D-3667-47AF-A572-30B7B5E2449C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFCG.BudgIT.Web", "FFCG.BudgIT.Web\FFCG.BudgIT.Web.csproj", "{DBDB153D-3667-47AF-A572-30B7B5E2449C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFCG.BudgIT.Data", "FFCG.BudgIT.Data\FFCG.BudgIT.Data.csproj", "{C397D9B5-3A72-4EA4-AC41-E1B02C124851}"
 EndProject
