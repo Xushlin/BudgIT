@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFCG.BudgIT.Common", "FFCG.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFCG.BudgIT.Domain", "FFCG.BudgIT.Domain\FFCG.BudgIT.Domain.csproj", "{6AEBEB1F-6C28-4136-937A-99D1F67EC2B0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFCG.BudgIT.Web.Test", "FFCG.BudgIT.Web.Test\FFCG.BudgIT.Web.Test.csproj", "{C30DDBB9-3F0B-4FA8-9695-32870A71BAE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,11 +55,16 @@ Global
 		{6AEBEB1F-6C28-4136-937A-99D1F67EC2B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AEBEB1F-6C28-4136-937A-99D1F67EC2B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AEBEB1F-6C28-4136-937A-99D1F67EC2B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C30DDBB9-3F0B-4FA8-9695-32870A71BAE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C30DDBB9-3F0B-4FA8-9695-32870A71BAE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C30DDBB9-3F0B-4FA8-9695-32870A71BAE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C30DDBB9-3F0B-4FA8-9695-32870A71BAE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{80AB427F-9795-464B-BF36-19D113772746} = {10153B69-3FB1-41E5-8271-FA6F9CA3B467}
+		{C30DDBB9-3F0B-4FA8-9695-32870A71BAE3} = {10153B69-3FB1-41E5-8271-FA6F9CA3B467}
 	EndGlobalSection
 EndGlobal
