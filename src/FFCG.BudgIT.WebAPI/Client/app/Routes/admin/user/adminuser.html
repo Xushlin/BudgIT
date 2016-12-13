@@ -1,0 +1,136 @@
+﻿<ol class="breadcrumb">
+    <li><b>Admin</b></li>
+    <li><a ui-sref="/adminevents">Events</a></li>
+    <li><a ng-click="adminuser.backToEvent()">{{adminuser.currentEvent}}</a></li>
+    <li class="active">
+        {{adminuser.attendee.FirstName}} {{adminuser.attendee.LastName}}
+    </li>
+</ol>
+<div class="">
+    <button class="btn btn-primary" style="float: right" ng-click="edituser = true" ng-hide="edituser"><i class="fa fa-edit"></i></button>
+    <div class="well" ng-show="edituser">
+        <div class="col-xs-6" style="margin-bottom:5px;">
+            <input type="text" class="form-control" ng-model="adminuser.attendee.FirstName" placeholder="First name" />
+        </div>
+        <div class="col-xs-6" style="margin-bottom:5px;">
+            <input type="text" class="form-control" ng-model="adminuser.attendee.LastName" placeholder="Last name" />
+        </div>
+        <div class="col-xs-6" style="margin-bottom:5px;">
+            <input type="text" class="form-control" ng-model="adminuser.attendee.Company" placeholder="Company" />
+        </div>
+        <div class="col-xs-6" style="margin-bottom:5px;">
+            <input type="text" class="form-control" ng-model="adminuser.attendee.PhoneNumber" placeholder="Phone number" />
+        </div>
+        <div class="col-xs-6" style="margin-bottom:5px;">
+            <input type="text" class="form-control" ng-model="adminuser.attendee.LinkedIn" placeholder="LinkedIn url" />
+        </div>
+        <div class="col-xs-6" style="margin-bottom:5px;">
+            <div ng-show="adminuser.attendee.ImageUrl!=null && adminuser.attendee.ImageUrl!=''" style="margin-right:10px; width: 182px; height: 108px; float:left; position:relative; border:1px solid #ccc;text-align:center;border-radius:4px;">
+                <img ng-src="{{adminuser.attendee.ImageUrl}}" style="margin:0 auto;max-width: 182px;max-height: 106px; padding:5px 5px 5px 5px;">
+                <div style="position:absolute; top:-12px; right:-8px; background:#fff; width:20px; height:21px; border-radius:10px;">
+                    <button type="button" class="close" ng-click="adminuser.removePic()"><i class="glyphicon glyphicon-remove-circle"></i></button>
+                </div>
+            </div>
+
+            <label class="btn btn-primary btn-file">
+                <i class="fa fa-image"></i> Upload user photo
+                <input style="display:none" type="file" ng-file-select="adminuser.onFileSelect($files)" accept="image/jpeg,image/jpg,image/png,image/bmp">
+            </label>
+        </div>
+        <div class="col-xs-12">
+            <div style="float:right">
+                <button class="btn btn-success" ng-click="adminuser.updateAttendeeInfo(); edituser=false">
+                    Save
+                </button>
+                <button class="btn btn-danger" ng-click="edituser = false">
+                    Cancel
+                </button>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="col-xs-6">
+        <h2>
+            {{adminuser.attendee.FirstName}} {{adminuser.attendee.LastName}}<br/>
+            <small>{{adminuser.attendee.Company}}</small>
+        </h2>
+        <div>Rekrytera <b>{{adminuser.attendee.contactRecruitAmount}}</b> <i class="glyphicon glyphicon-ok" style="color: #F2AE43"></i>
+        </div>
+        <div>Sälj <b>{{adminuser.attendee.contactSalesAmount}}</b> <i class="glyphicon glyphicon-ok" style="color: #F2AE43"></i>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="col-xs-9" style="font-size: 20px;">
+            <div style="float: right">
+                <uib-rating style="color: #F2AE43" ng-model="adminuser.attendee.avgRating" max="5" read-only="true" aria-labelledby="default-rating"></uib-rating>
+                <div><a ng-href="{{adminuser.attendee.LinkedIn}}" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+                </div>
+                <div><i class="glyphicon glyphicon-earphone"></i> {{adminuser.attendee.PhoneNumber}}
+                </div>
+                <div><i class="glyphicon glyphicon-envelope"></i> <a ng-href="mailto:{{adminuser.attendee.Email}}">{{adminuser.attendee.Email}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-3">
+            <img ng-if="adminuser.attendee.ImageUrl" ng-src="{{adminuser.attendee.ImageUrl}}" style="float: left; max-width: 120px;"/>
+            <i ng-if="!adminuser.attendee.ImageUrl" class="glyphicon glyphicon-user" style="font-size: 100px; float: left;"></i>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="separator" style="margin-top: 10px; margin-bottom: 10px;"></div>
+    <div style="font-size: 20px; margin-bottom: 10px; margin-top: 10px;">
+        <span ng-repeat="tag in adminuser.attendee.AllTags" style="margin-right: 5px; margin-bottom: 10px;" class="label label-primary">{{tag.Title}}</span>
+    </div>
+    <div class="separator" style="margin-top: 10px; margin-bottom: 10px;" ng-if="adminuser.attendee.AllTags.length>0"></div>
+    <div class="stackedPills">
+        <uib-tabset vertical="true" type="pills" active="adminuser.activePill"><!---->
+            <uib-tab ng-repeat="event in adminuser.attendee.SocialEvents" >
+                <uib-tab-heading>
+                    {{event.Title}}
+                </uib-tab-heading>
+                <div>
+                    <h3>{{event.Title}}</h3>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Feedback givare</th>
+                            <th>Rekrytera</th>
+                            <th>Sälj</th>
+                            <th>Rating</th>
+                            <th>Tags</th>
+                            <th>Kommentar</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-if="feedback.EventId == event.Id" ng-repeat="feedback in adminuser.attendee.FeedbackReceived | orderBy:'ratee'" ng-class-odd="'unstriped'" ng-class-even="'striped'">
+                            <td>
+                                {{feedback.Employee.FirstName}} {{feedback.Employee.LastName}}
+                            </td>
+                            <td>
+                                <i class="glyphicon glyphicon-ok" ng-style="feedback.Recruit&&{'color':'#F2AE43'}"></i>
+                            </td>
+                            <td>
+                                <i class="glyphicon glyphicon-ok" ng-style="feedback.SalesOpportunity&&{'color':'#F2AE43'}"></i>
+                            </td>
+                            <td>
+                                <div ng-repeat="rating in feedback.StarRatings">
+                                    <!--<label>{{rating.StarRatingType.Name}}</label>-->
+                                    <uib-rating ng-style="{'color':rating.StarRatingType.Color}" ng-model="rating.Score" max="5" read-only="true" aria-labelledby="default-rating"></uib-rating>
+                                </div>
+                            </td>
+                            <td>
+                                <div ng-repeat="tag in feedback.Tags">
+                                    <span class="label label-primary">{{tag.Title}}</span>
+                                </div>
+                            </td>
+                            <td>
+                                {{feedback.Comment}}
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>

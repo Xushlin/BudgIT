@@ -1,0 +1,99 @@
+﻿<ol class="breadcrumb">
+    <li><b>Admin</b></li>
+    <li><a ui-sref="/adminevents">Events</a></li>
+    <li class="active">{{adminevent.currentEvent.Title}}</li>
+</ol>
+<h3>{{adminevent.currentEvent.Title}}</h3>
+<div style="max-width:200px; float:right; margin-bottom:10px;">
+    <input type="text" class="form-control" placeholder="Sök" ng-model="search.fullname" />
+</div>
+<div class="clearfix"></div>
+<div class="row" style="margin-left: 0; margin-right: 0;">
+    <div class="col-xs-3" ng-click="adminevent.sortBy('fullname')"><b>Deltagare</b>  <i ng-class="(adminevent.propertyName=='fullname') ? ((adminevent.reverse)?'fa-sort-desc':'fa-sort-asc' ) : 'fa-sort'" class="fa"></i></div>
+    <div class="col-xs-3" ng-click="adminevent.sortBy('Company')"><b>Företag/Universitet</b>  <i ng-class="(adminevent.propertyName=='Company') ? ((adminevent.reverse)?'fa-sort-desc':'fa-sort-asc' ) : 'fa-sort'" class="fa"></i></div>
+    <div class="col-xs-3" ng-click="adminevent.sortBy('avgRating')"><b>Avg.Rating</b>  <i ng-class="(adminevent.propertyName=='avgRating') ? ((adminevent.reverse)?'fa-sort-desc':'fa-sort-asc' ) : 'fa-sort'" class="fa"></i></div>
+    <div class="col-xs-1" ng-click="adminevent.sortBy('FeedbackReceived.length')"><b># Svar</b>  <i ng-class="(adminevent.propertyName=='FeedbackReceived.length') ? ((adminevent.reverse)?'fa-sort-desc':'fa-sort-asc' ) : 'fa-sort'" class="fa"></i></div>
+    <div class="col-xs-2"></div>
+</div>
+<div title="Click to see details for the user" class="row" style="margin-left: 0; margin-right: 0; padding-bottom: 20px; cursor: pointer;"
+     ng-repeat="attendee in adminevent.attendees | orderBy:adminevent.propertyName:adminevent.reverse | filter:search"
+     ng-init="attendee.fullname = attendee.FirstName+ ' '+ attendee.LastName;" ng-class-odd="'unstriped'" ng-class-even="'striped'">
+    <hr style="margin-top: 0;" />
+    <div class="col-xs-3" ng-click="adminevent.goToUser(attendee.Id)">
+        <div style="width: 50px; height: 50px; margin-right: 10px; display: inline">
+            <img ng-if="attendee.ImageUrl!=null || attendee.ImageUrl!=''" ng-src="{{attendee.ImageUrl}}" style="float: left; max-width: 50px;" />
+            <i ng-if="attendee.ImageUrl==null || attendee.ImageUrl==''" class="glyphicon glyphicon-user" style=""></i>
+        </div>
+        <a ng-click="adminevent.goToUser(attendee.Id)">{{attendee.FirstName}} {{attendee.LastName}}</a>
+    </div>
+    <div ng-click="adminevent.goToUser(attendee.Id)" class="col-xs-3">
+        {{attendee.Company}}
+    </div>
+    <div class="col-xs-3" ng-click="showAllStars = !showAllStars;" ng-init="showAllStars = false">
+        <uib-rating style="color:#F2AE43" ng-model="attendee.avgRating" max="5" read-only="true" aria-labelledby="default-rating"></uib-rating><i ng-show="attendee.avgRating>0" class="glyphicon" ng-class="showAllStars ? 'glyphicon-chevron-up' : 'glyphicon-chevron-down'"></i>
+        <div ng-repeat="avgRating in attendee.avgRatings" style="" ng-show="showAllStars">
+            <div style="">
+
+                <div style="margin-left:auto">
+                    <uib-rating ng-style="{'color':avgRating.Color}" ng-model="avgRating.AvgScore" max="5" read-only="true" aria-labelledby="default-rating"></uib-rating>
+                </div>
+                <div style="display:none;font-weight:bold;">
+                    {{avgRating.Name}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-1" ng-click="adminevent.goToUser(attendee.Id)">{{attendee.FeedbackReceived.length}}</div>
+    <div class="col-xs-2" ng-click="adminevent.goToUser(attendee.Id)"><i style="float:right" class="glyphicon glyphicon-chevron-right"></i></div>
+    <div class="col-xs-12" uib-collapse="!(adminevent.showFeedbackRow == $index)">
+        <div ng-if="attendee.FeedbackReceived.length < 1" style="margin-top:5px;">
+            <h4>Ingen feedback given för denna besökare än</h4>
+        </div>
+        <table ng-if="attendee.FeedbackReceived.length > 0" class="table">
+            <thead>
+                <tr>
+                    <th>Feedback givare</th>
+                    <th>Rekrytera</th>
+                    <th>Sälj</th>
+                    <th>Rating</th>
+                    <th>Tags</th>
+                    <th>Kommentar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="feedback in attendee.FeedbackReceived | orderBy:'ratee'" ng-class-odd="'unstriped'" ng-class-even="'striped'">
+                    <td>
+                        {{feedback.Employee.FirstName}} {{feedback.Employee.LastName}}
+                    </td>
+                    <td>
+                        <i class="glyphicon glyphicon-ok" ng-style="feedback.Recruit&&{'color':'#F2AE43'}"></i>
+                    </td>
+                    <td>
+                        <i class="glyphicon glyphicon-ok" ng-style="feedback.SalesOpportunity&&{'color':'#F2AE43'}"></i>
+                    </td>
+                    <td>
+                        <!--<uib-rating style="color:#F2AE43"  ng-model="feedback.Rating" max="5" read-only="true" aria-labelledby="default-rating"></uib-rating>-->
+                        <div ng-repeat="starRating in feedback.StarRatings" style="font-size:20px; text-align:center; display:flex; width:100%; align-self:center; justify-content:center;" ng-show="showAllStars" ng-init="showAllStars = true">
+                            <div style="display:inline-flex; width:240px; align-items:center;">
+                                <div style="font-size:13px; font-weight:bold;">
+                                    {{starRating.StarRatingType.Name}}
+                                </div>
+                                <div style="margin-left:auto">
+                                    <uib-rating ng-style="{'color':starRating.StarRatingType.Color}" ng-model="starRating.Score" max="5" read-only="true" aria-labelledby="default-rating"></uib-rating>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div ng-repeat="tag in feedback.Tags">
+                            <span class="label label-primary">{{tag.Title}}</span>
+                        </div>
+                    </td>
+                    <td>
+                        {{feedback.Comment}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

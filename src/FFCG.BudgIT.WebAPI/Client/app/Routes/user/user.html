@@ -1,0 +1,87 @@
+﻿<ol class="breadcrumb">
+    <li><a ui-sref="/events">Events</a></li>
+    <li><a ng-click="user.backToEvent()">{{user.currentEvent.Title}}</a></li>
+    <li class="active">
+        {{user.attendee.FirstName}} {{user.attendee.LastName}}
+    </li>
+</ol>
+<div class="">
+    <div style="margin-bottom: 10px; margin-top: 10px;">
+        <img ng-if="user.attendee.ImageUrl!=null || user.attendee.ImageUrl!='' " ng-src="{{user.attendee.ImageUrl}}" style="float: left; max-width: 150px;"/>
+        <i ng-if="user.attendee.ImageUrl==null || user.attendee.ImageUrl==''" class="glyphicon glyphicon-user" style="font-size: 100px; float: left;"></i>
+        <div style="float: left; margin-left: 20px;">
+            <h4>
+                {{user.attendee.FirstName}} {{user.attendee.LastName}}<br/>
+                <small>{{user.attendee.Company}}</small>
+            </h4>
+            <div>
+                <a ng-if="user.attendee.LinkedIn" ng-href="{{user.attendee.LinkedIn}}" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+                <i ng-if="!user.attendee.LinkedIn" class="fa fa-linkedin-square"></i>
+            </div>
+            <div>
+                <i class="glyphicon glyphicon-earphone"></i> {{user.attendee.PhoneNumber}}
+            </div>
+            <div>
+                <i class="glyphicon glyphicon-envelope"></i> <a ng-href="mailto:{{user.attendee.Email}}">{{user.attendee.Email}}</a>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="separator"></div>
+    <div style="font-size:20px; text-align:center; display:flex; width:100%; align-self:center; justify-content:center;" ng-hide="user.starRatingsSelected.length<user.rate.StarRating.length">
+        <uib-rating style="color:#F2AE43" ng-model="user.avgRating" max="5" read-only="true" aria-labelledby="default-rating"></uib-rating> <i class="fa" style="margin-left:10px;" ng-class="showAllStars ?'fa-caret-up':'fa-caret-down'" ng-click="showAllStars=!showAllStars;" ng-init="showAllStars = false"></i>
+    </div>
+    <div ng-repeat="starRating in user.rate.StarRating" style="font-size:20px; text-align:center; display:flex; width:100%; align-self:center; justify-content:center;" ng-show="user.starRatingsSelected.length<user.rate.StarRating.length || showAllStars">
+        <div style="display:inline-flex; width:240px; align-items:center;">
+            <div style="font-size:13px; font-weight:bold;">
+                {{starRating.StarRatingType.Name}}
+            </div>
+            <div style="margin-left:auto">
+                <uib-rating ng-style="{'color':starRating.StarRatingType.Color}" ng-model="starRating.Score" ng-click="user.addStarRating(starRating)" max="5" read-only="false" aria-labelledby="default-rating"></uib-rating>
+            </div>
+        </div>
+    </div>    
+    <!--<div style="font-size:20px; text-align:center; display:flex; width:100%; align-self:center; justify-content:center;">
+        <div style="display:inline-flex; width:200px;">
+            <div>
+                Social
+            </div>
+            <div style="margin-left:auto">
+                <uib-rating style="color:#8DA336" ng-model="user.rate.rating1" ng-click="user.rate.rating = (user.rate.rating1+user.rate.rating2+user.rate.rating3)/3" max="5" read-only="false" aria-labelledby="default-rating"></uib-rating>
+            </div>
+        </div>
+    </div>
+    <div style="font-size:20px; text-align:center; display:flex; width:100%; align-self:center; justify-content:center;">
+        <div style="display:inline-flex; width:200px;">
+            <div>
+                Skill
+            </div>
+            <div style="margin-left:auto">
+                <uib-rating style="color:#265B6A" ng-model="user.rate.rating2" ng-click="user.rate.rating = (user.rate.rating1+user.rate.rating2+user.rate.rating3)/3" max="5" read-only="false" aria-labelledby="default-rating"></uib-rating>
+            </div>
+        </div>
+    </div>
+    <div style="font-size:20px; text-align:center; display:flex; width:100%; align-self:center; justify-content:center;">
+        <div style="display:inline-flex; width:200px;">
+            <div>
+                Passion
+            </div>
+            <div style="margin-left:auto">
+                <uib-rating style="color:#9B344E" ng-model="user.rate.rating3" ng-click="user.rate.rating = (user.rate.rating1+user.rate.rating2+user.rate.rating3)/3" max="5" read-only="false" aria-labelledby="default-rating"></uib-rating>
+            </div>
+        </div>
+    </div>-->
+    <div class="separator"></div>
+
+    <tags-input style="margin-top:10px;" min-length="1" ng-model="user.rate.Tags" display-property="Title" placeholder="Intresserad av"  replace-spaces-with-dashes="false" add-from-autocomplete-only="true">
+        <auto-complete load-on-down-arrow="true" min-length="1" load-on-empty="true" load-on-focus="true" source="user.loadTags($query)"></auto-complete>
+    </tags-input>
+    <div style="margin-top:10px; cursor:pointer;" ng-click="user.rate.ContactRecruit = !user.rate.ContactRecruit" ng-init="user.rate.ContactRecruit = false">
+        <i class="glyphicon glyphicon-ok" ng-style="user.rate.ContactRecruit&&{'color':'#F2AE43'}"></i> Kontakta för rekrytering
+    </div>
+    <div style="margin-top:10px; cursor:pointer;" ng-click="user.rate.ContactSales = !user.rate.ContactSales" ng-init="user.rate.ContactSales = false">
+        <i class="glyphicon glyphicon-ok" ng-style="user.rate.ContactSales&&{'color':'#F2AE43'}"></i> Kontakta för sälj
+    </div>
+    <textarea style="margin-top:10px; margin-bottom:10px; height:200px;" class="form-control" ng-model="user.rate.Comment" placeholder="Lämna kommentar"></textarea>
+    <button class="btn btn-success" ng-click="user.rateUser()">Spara</button>
+</div>

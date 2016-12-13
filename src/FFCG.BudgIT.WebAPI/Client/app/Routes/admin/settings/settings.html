@@ -1,0 +1,193 @@
+﻿<ol class="breadcrumb">
+    <li><b>Admin</b></li>
+    <li class="active">Settings</li>
+</ol>
+
+<h3>Settings</h3>
+
+<uib-tabset active="active">
+    <uib-tab index="0" heading="Tags">
+        <button class="btn btn-primary" style="float:right" ng-click="adding = true;">Add tag</button>
+        <div class="clearfix"></div>
+        <div ng-show="adding" ng-init="tagToAdd">
+            <form role="form" name="formOfAttendee" novalidate>
+                <div class="col-xs-8">
+                    <input type="text" ng-model="tagToAdd.Title" required class="form-control" />
+                </div>
+                <div class="col-xs-4">
+                    <button class="btn btn-primary" ng-disabled="formOfAttendee.$invalid" ng-click="settings.addTag(tagToAdd); tagToAdd=null; adding=false;">Add</button>
+                    <button class="btn btn-danger" ng-click="adding = false; tagToAdd = null">Cancel</button>
+                </div>
+            </form>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Tag name
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="tag in settings.tags" ng-init="startvalue = tag.Title">
+                    <td>
+                        <div ng-hide="editing">
+                            {{tag.Title}}
+                        </div>
+                        <input class="form-control" type="text" ng-model="tag.Title" ng-show="editing" />
+
+                    </td>
+                    <td>
+                        <div ng-hide="editing" style="float:right;">
+                            <button class="btn btn-primary" ng-click="editing=!editing">
+                                <i class="fa fa-edit"></i>
+                                Edit
+                            </button>
+                            <button class="btn btn-danger" ng-click="settings.deleteTag(tag)">
+                                <i class="fa fa-remove"></i>
+                                Delete
+                            </button>
+                        </div>
+                        <div ng-show="editing" style="float:right;">
+                            <button class="btn btn-primary" ng-click="settings.saveTag(tag,startvalue); startvalue = tag.Title; editing=!editing">
+                                <i class="fa fa-save"></i>
+                                Save
+                            </button>
+                            <button class="btn btn-danger" ng-click="tag.Title = startvalue; editing =! editing">
+                                Cancel
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </uib-tab>
+    <uib-tab index="1" heading="Star rating">
+
+        <button class="btn btn-primary" style="float: right" ng-click="addingStars = true;">Add star</button>
+        <div class="clearfix"></div>
+        <div ng-show="addingStars" ng-init="starsToAdd">
+            <form role="form" name="formOfAttendee" novalidate>
+                <div class="col-xs-8">
+                    <input type="text" ng-model="starsToAdd.Name" required class="form-control" style="max-width: 250px; display: inline-block"/>
+                    <button colorpicker type="button" colorpicker-position="top" class="btn btn-success" ng-model="starsToAdd.Color">Change color</button>
+                    <uib-rating ng-style="{'color':starsToAdd.Color}" ng-init="x = 3" ng-model="x" max="5" read-only="true" aria-labelledby="default-rating"></uib-rating>
+
+                </div>
+                <div class="col-xs-4">
+                    <button class="btn btn-primary" ng-disabled="formOfAttendee.$invalid" ng-click="settings.addStar(starsToAdd); starsToAdd=null; addingStars=false;">Add</button>
+                    <button class="btn btn-danger" ng-click="addingStars = false; starsToAdd = null">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>
+                    Star rating
+                </th>
+                <th>
+                    Color
+                </th>
+                <th>
+
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="star in settings.stars" ng-init="starStartvalue = star.Name">
+                <td>
+                    <div ng-hide="editingStar">
+                        {{star.Name}}
+                    </div>
+                    <input class="form-control" type="text" ng-model="star.Name" ng-show="editingStar"/>
+
+                </td>
+                <td>
+                    <div ng-hide="editingStar">
+                        <uib-rating ng-style="{'color':star.Color}" ng-init="x = 3" ng-model="x" max="5" read-only="true" aria-labelledby="default-rating"></uib-rating>
+                    </div>
+                    <div ng-show="editingStar">
+                        <button colorpicker type="button" colorpicker-position="top" class="btn btn-success" ng-model="star.Color">Change color</button>
+                        <uib-rating ng-style="{'color':star.Color}" ng-init="x = 3" ng-model="x" max="5" read-only="true" aria-labelledby="default-rating"></uib-rating>
+                    </div>
+                </td>
+                <td>
+                    <div ng-hide="editingStar" style="float: right;">
+                        <button class="btn btn-primary" ng-click="editingStar =! editingStar">
+                            <i class="fa fa-edit"></i>
+                            Edit
+                        </button>
+                        <button class="btn btn-danger" ng-click="settings.deleteStar(star)">
+                            <i class="fa fa-remove"></i>
+                            Delete
+                        </button>
+                    </div>
+                    <div ng-show="editingStar" style="float: right;">
+                        <button class="btn btn-primary" ng-click="settings.saveStar(star,starStartvalue); starStartvalue = star.Name; editingStar = !editingStar">
+                            <i class="fa fa-save"></i>
+                            Save
+                        </button>
+                        <button class="btn btn-danger" ng-click="star.Name = starStartvalue; editingStar = !editingStar">
+                            Cancel
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+
+    </uib-tab>
+
+    <uib-tab index="2" heading="Employee">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Admin
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="employee in settings.employees" ng-init="starStartvalue = star.Name">
+                    <td>
+                        <div>
+                            {{employee.FirstName}} {{employee.LastName}}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" disabled ng-model="employee.Admin" > 
+                            </label>
+                        </div>
+                    </td>
+                    <td>
+                        <div  style="float:right;">
+                            <button class="btn btn-primary" ng-click="settings.SetEmployeeRole(employee)">
+                                Set role
+                            </button>
+                        </div>
+                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </uib-tab>
+</uib-tabset>
+

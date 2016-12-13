@@ -1,0 +1,129 @@
+﻿@using System
+<!--<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
+                    <li>@Html.ActionLink("API", "Index", "Help", new { area = "" }, null)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>-->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Forefront Contacts</title>
+    <link href="dist/css/builtCss.css" rel="stylesheet" />
+    <link href="dist/css/built.css" rel="stylesheet" />
+
+    <script src="dist/js/scripts.js"></script>
+
+    <script src="dist/js/app.js"></script>
+    <script src="/Client/app/AzureAd/adal-angular.js"></script>
+    <script src="/Client/app/AzureAd/adal.js"></script>
+    <script src="dist/js/routes.js"></script>
+    <script src="dist/js/services.js"></script>
+    <base href="/">
+</head>
+<body ng-app="forefrontContactsApp" ng-controller="LoginController">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img src="/Content/logo.png" style="max-height:100%;" />
+                </a>
+            </div>
+            <div ng-controller="AlertController">
+                <div uib-alert class="global-message" type="{{alert.type}}" ng-repeat="alert in alerts"  close="closeAlert($index)">
+                    {{alert.msg}} 
+                </div>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav" ng-show="userInfo.isAuthenticated">
+                    <li ng-class="{ active: matchesRoute('/events')}" data-toggle="collapse" data-target=".navbar-collapse.in">
+                        <a ui-sref="/events">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                            <span class="about-list-text">Events</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav" ng-show="userInfo.isAuthenticated && employee.Admin">
+                    <li ng-class="{ active: matchesRoute('/adminevents')}" data-toggle="collapse" data-target=".navbar-collapse.in">
+                        <a ui-sref="/adminevents">
+                            <i class="glyphicon glyphicon-calendar"></i>
+                            <span class="about-list-text">Admin Events</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li ng-show="userInfo.isAuthenticated  && employee.Admin" ng-class="{ active: matchesRoute('/admin/settings')}" data-toggle="collapse" data-target=".navbar-collapse.in">
+                        <a ui-sref="/adminsettings">
+                            <i class="glyphicon glyphicon-cog"></i>
+                            <span class="about-list-text">Settings</span>
+                        </a>
+                    </li>
+                    @*<li ng-hide="matchesRoute('/','/login')" data-toggle="collapse" data-target=".navbar-collapse.in">
+                            <a ui-sref="/login">
+                                <i class="glyphicon glyphicon-log-out"></i>
+                                <span class="about-list-text">Log out</span>
+                            </a>
+                        </li>
+                        <li ng-hide="matchesRoute('/','/login')" data-toggle="collapse" data-target=".navbar-collapse.in">
+                            <a>
+                                <span class="about-list-text">{{username}}</span>
+                            </a>
+                        </li>*@
+
+                    <li><a class="btn btn-link" ng-show="userInfo.isAuthenticated" ng-click="logout()">Logout</a></li>
+                    <li><a class="btn btn-link" ng-hide="userInfo.isAuthenticated" ng-click="login()">Login</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div class="container" ui-view>
+    </div>
+</body>
+</html>
